@@ -11,7 +11,7 @@ def sql_start():
     cur = base.cursor()
     if base:
         print('Data base connected OK!')
-    base.execute('CREATE TABLE IF NOT EXISTS users(id INTEGER NOT NULL, name TEXT, surname TEXT, email TEXT)')
+    base.execute('CREATE TABLE IF NOT EXISTS users(id INTEGER NOT NULL, name TEXT, surname TEXT, email TEXT, phone TEXT, telegram_name TEXT)')
     base.commit
     
 # Проверяем, зарегистрирован ли пользователь    
@@ -35,14 +35,14 @@ def help(user_id):
     if responce != 0:
         result = base.execute("SELECT * FROM users WHERE id = (?)", (user_id,))
         responce = result.fetchone()
-        registration_data = responce[3]
+        registration_data = responce
     return registration_data
 
     
 async def sql_add_commend(state):
     global base, cur
     async with state.proxy() as data:
-        cur.execute("INSERT INTO users VALUES(?,?,?,?)", tuple(data.values()))
+        cur.execute("INSERT INTO users VALUES(?,?,?,?,?,?)", tuple(data.values()))
         base.commit()
 
 async def sql_add_check(state):
